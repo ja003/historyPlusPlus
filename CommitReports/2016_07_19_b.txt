@@ -1,0 +1,18 @@
+Basic scene layeout
+
+- created first scene layout
+- added scenes menu, game
+
+DB integration
+
+- implemented SQLite DB
+- initial DB for questions
+
+Language support
+
+- implemented initial language support for CZ and ENG
+
+Settings
+
+- added settings scene
+- implemented saving settings into DB

@@ -1,0 +1,1 @@
+INSERT INTO questionsAvailable VALUES(0, "Others", "century", "TGM smrt", "TGM death", "TGM smrt___", "TGM death___", 20, 4, 7,666 ,666 );

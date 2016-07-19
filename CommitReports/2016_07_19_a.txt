@@ -1,0 +1,4 @@
+Settings
+
+- added settings scene
+- implemented saving settings into DB

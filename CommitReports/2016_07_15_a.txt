@@ -1,0 +1,4 @@
+Basic scene layeout
+
+- created first scene layout
+- added scenes menu, game

@@ -1,0 +1,4 @@
+DB integration
+
+- implemented SQLite DB
+- initial DB for questions
