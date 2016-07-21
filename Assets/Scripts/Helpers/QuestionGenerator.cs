@@ -19,7 +19,7 @@ public class QuestionGenerator : MonoBehaviour {
 
     public Question GetRandomQuestion()
     {
-        List<Category> c = GameInfo.Instance.categories;
+        List<Category> c = GameInfo.Instance.settings.GetCategories();
 
         Question q = new Question();
 

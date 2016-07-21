@@ -38,6 +38,9 @@ public class LanguageSupport : MonoBehaviour
     {
         AddText("game_century");
         AddText("game_decade");
+        AddText("game_year");
+        AddText("game_month");
+        AddText("game_day");
 
     }
 
@@ -48,11 +51,13 @@ public class LanguageSupport : MonoBehaviour
 
     public void InitializeAnswerTexts()
     {
-        texts.Add("answer_next", LoadText("answer_next"));
-        texts.Add("answer_reveal", LoadText("answer_reveal"));
-        texts.Add("answer_more", LoadText("answer_more"));
-        texts.Add("answer_correct", LoadText("answer_correct"));
-        texts.Add("answer_wrong", LoadText("answer_wrong"));
+        AddText("answer_next");
+        AddText("answer_reveal");
+        AddText("answer_more");
+        AddText("answer_correct");
+        AddText("answer_wrong");
+        AddText("answer_anyAvailable"); ;
+        AddText("answer_noAvailable");
 
     }
 
@@ -109,7 +114,7 @@ public class LanguageSupport : MonoBehaviour
             return (string)texts[code];
         else
         {
-            Debug.Log("*text not found*");
+            Debug.Log(code + ": *text not found*");
             foreach (string value in texts.Values)
             {
                 Debug.Log(value);

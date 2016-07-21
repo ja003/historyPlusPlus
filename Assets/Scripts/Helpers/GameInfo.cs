@@ -5,10 +5,11 @@ using System.Collections.Generic;
 public class GameInfo : MonoBehaviour {
 
     //public Language language;
-    public List<Category> categories;
+    //public List<Category> categories;
 
     public SettingsTable settings;
 
+    public ScoreTable score;
 
     public static GameInfo Instance { get; private set; }
 
@@ -25,19 +26,15 @@ public class GameInfo : MonoBehaviour {
 
     void Start()
     {
-
-        categories = new List<Category>();
-        categories.Add(Category.War);
-        categories.Add(Category.Science);
-        categories.Add(Category.Politics);
-        categories.Add(Category.Others);
-
         settings = DBAccess.Instance.GetSettings();
         LanguageSupport.Instance.SetLanguage(settings);
 
+        score = DBAccess.Instance.GetScore();
+
+
         //StartCoroutine(LateStart(0.1f));
     }
-    
+
     IEnumerator LateStart(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);

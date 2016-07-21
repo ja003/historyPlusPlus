@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class AnswerActivity : MonoBehaviour {
 
@@ -8,6 +9,7 @@ public class AnswerActivity : MonoBehaviour {
     Text answer_text;
 
     GameObject top_btn_obj;
+    GameObject bot_btn_obj;
 
     Button top_btn;
     Button bot_btn;
@@ -24,8 +26,14 @@ public class AnswerActivity : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        Debug.Log("AnswerActivity");
+        /*if (SceneManager.GetActiveScene().buildIndex == 1)  
+            OnLevelWasLoaded(1);
+        */
         answerCanvas = GameObject.Find("AnswerCanvas").
             GetComponent<Canvas>();
+        Debug.Log(answerCanvas);
+        Debug.Log(answerCanvas.enabled);
 
         answer_text = GameObject.Find("answer_text").
             GetComponent<Text>();
@@ -39,42 +47,47 @@ public class AnswerActivity : MonoBehaviour {
 
         InitializeOptions();
     }
-	
+
+
+
+    /*void OnLevelWasLoaded(int level)
+    {
+        Debug.Log("LOAD");
+        if (level == 1)
+        {
+            Debug.Log("GAME");
+
+            
+        }
+
+    }*/
+
+    #region Initialization
     private void InitializeOptions()
     {
         top_btn_obj = GameObject.Find("top_btn");
+        bot_btn_obj = GameObject.Find("bot_btn");
 
         top_btn = top_btn_obj.GetComponent<Button>();
-        bot_btn = GameObject.Find("bot_btn").GetComponent<Button>();
+        bot_btn = bot_btn_obj.GetComponent<Button>();
 
         top_btn_text = top_btn_obj.GetComponentInChildren<Text>();
-        bot_btn_text = GameObject.Find("bot_btn").
-            GetComponentInChildren<Text>();
+        bot_btn_text = bot_btn_obj.GetComponentInChildren<Text>();
 
         top_btn.onClick.AddListener(() => TopBtnOption());
         bot_btn.onClick.AddListener(() => BotBtnOption());
     }
 
-	public void ShowAnswerStatus(bool status)
+    #endregion
+
+    #region Functions
+    
+
+    private void IncreaseScore()
     {
-        this.status = status;
-
-        answerCanvas.enabled = true;
-        top_btn_obj.SetActive(true);
-
-
-        answer_text.text = status? 
-            LanguageSupport.Instance.GetText("answer_correct"):
-            LanguageSupport.Instance.GetText("answer_wrong");
-
-        ShowOptions(status);
-
-        if (status)
-            answerCanvas_bg.color = new Color(0, 1, 0,0.5f);
-        else
-            answerCanvas_bg.color = new Color(1, 0, 0, 0.5f);
-
-
+        GameInfo.Instance.score.score++;
+        DBAccess.Instance.SaveScore(GameInfo.Instance.score);
+        gameActivity.RefreshScore();
     }
 
     private void TopBtnOption()
@@ -95,7 +108,7 @@ public class AnswerActivity : MonoBehaviour {
 
     private void MoreQuestion()
     {
-        answerCanvas.enabled = false;
+        HideAnswerCanvas();
         gameActivity.RefreshQuestion();
     }
 
@@ -115,6 +128,67 @@ public class AnswerActivity : MonoBehaviour {
         gameActivity.LoadNextQuestion();
     }
 
+    public void NoMoreQuestions()
+    {
+        ShowNoMoreOptions(DBAccess.Instance.IsAnyQuestionAvailable());
+    }
+
+
+    #endregion
+
+    #region Vizualization
+    private void ShowAnsverCanvas()
+    {
+        Debug.Log(answerCanvas);
+        answerCanvas.enabled = true;
+        top_btn_obj.SetActive(true);
+    }
+
+    private void HideAnswerCanvas()
+    {
+        answerCanvas.enabled = false;
+    }
+
+    private void ShowNoMoreOptions(bool anyAvailable)
+    {
+        ShowAnsverCanvas();
+
+        answer_text.text = anyAvailable ?
+            LanguageSupport.Instance.GetText("answer_anyAvailable") :
+            LanguageSupport.Instance.GetText("answer_noAvailable");
+
+        HideOptions();
+    }
+
+    private void HideOptions()
+    {
+        top_btn_obj.SetActive(false);
+        bot_btn_obj.SetActive(false);
+    }
+
+    public void ShowAnswerStatus(bool status)
+    {
+        this.status = status;
+
+        ShowAnsverCanvas();
+
+
+        answer_text.text = status ?
+            LanguageSupport.Instance.GetText("answer_correct") :
+            LanguageSupport.Instance.GetText("answer_wrong");
+
+        ShowOptions(status);
+
+        if (status)
+        {
+            answerCanvas_bg.color = new Color(0, 1, 0, 0.5f);
+            IncreaseScore();
+        }
+        else
+            answerCanvas_bg.color = new Color(1, 0, 0, 0.5f);
+
+    }
+
     private void ShowOptions(bool status)
     {
         if (status)
@@ -131,4 +205,5 @@ public class AnswerActivity : MonoBehaviour {
         if (gameActivity.currentQuestion.completed)
             top_btn_obj.SetActive(false);
     }
+    #endregion
 }

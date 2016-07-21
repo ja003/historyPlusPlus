@@ -1,5 +1,6 @@
 ﻿using SQLite4Unity3d;
 using System;
+using UnityEngine;
 
 public class QuestionTable :ICloneable{
     [PrimaryKey, AutoIncrement]

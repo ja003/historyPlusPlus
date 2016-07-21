@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using System;
 
 public class DBAccess : MonoBehaviour {
 
@@ -39,6 +40,18 @@ public class DBAccess : MonoBehaviour {
     {
         ds.UpdateQuestionPeriod(question);
     }
+
+    public bool IsAnyQuestionAvailable()
+    {
+        Array ca = Enum.GetValues(typeof(Category));
+        foreach(Category c in ca)
+        {
+            if (GetRandomQuestion(c, Language.CZ).IsValid())
+                return true;
+        }
+        return false;
+    }
+
     #endregion
 
 
@@ -64,9 +77,21 @@ public class DBAccess : MonoBehaviour {
         return ds.GetSettings();
     }
 
-    public void UpdateSettings(SettingsTable settings)
+    public void SaveSettings(SettingsTable settings)
     {
-        ds.UpdateSettings(settings);
+        ds.SaveSettings(settings);
+    }
+    #endregion
+
+    #region Score
+    public ScoreTable GetScore()
+    {
+        return ds.GetScore();
+    }
+
+    public void SaveScore(ScoreTable score)
+    {
+        ds.SaveScore(score);
     }
     #endregion
 }

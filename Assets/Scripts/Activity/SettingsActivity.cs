@@ -47,12 +47,13 @@ public class SettingsActivity : MonoBehaviour {
     IEnumerator LateStart(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
+
         settings = GameObject.Find("GameInfo").GetComponent<GameInfo>().settings;
 
         //Your Function You Want to Call
         LanguageSupport.Instance.InitializeSettingsTexts();
         
-        LoadTexts();
+        //LoadTexts();
         UpdateSettings();
     }
 
@@ -95,40 +96,65 @@ public class SettingsActivity : MonoBehaviour {
             GetComponent<Toggle>();
 
         questionPack_dropdown = GameObject.Find("questionPack_dropdown").
-            GetComponent<Dropdown>();
+            GetComponent<Dropdown>();        
         language_dropdown = GameObject.Find("language_dropdown").
             GetComponent<Dropdown>();
+
+
+
+        science_toggle.onValueChanged.AddListener(delegate {
+            SaveSettings();
+        });
+        war_toggle.onValueChanged.AddListener(delegate {
+            SaveSettings();
+        });
+        politics_toggle.onValueChanged.AddListener(delegate {
+            SaveSettings();
+        });
+        others_toggle.onValueChanged.AddListener(delegate {
+            SaveSettings();
+        });
+
+
+        questionPack_dropdown.onValueChanged.AddListener(delegate {
+            SaveSettings();
+        });
         language_dropdown.onValueChanged.AddListener(delegate {
-            UpdateLanguage();
+            SaveSettings();
         });
     }
 
-    public void UpdateLanguage()
-    {
-        SaveSettings();
-        Debug.Log("language = " + settings.language);
-        LanguageSupport.Instance.SetLanguage(settings);
-        LanguageSupport.Instance.DropTexts();
-        LanguageSupport.Instance.InitializeSettingsTexts();
-        LoadTexts();        
-    }
-
+    
     public void SaveSettings()
     {
-        UpdateSettings();
+        
         settings.index = 1;
-        settings.language = language_dropdown.options[language_dropdown.value].text;
+        UpdateSettingsLanguage();
         settings.category_science = science_toggle.isOn;
         settings.category_war = war_toggle.isOn;
         settings.category_politics= politics_toggle.isOn;
         settings.category_others= others_toggle.isOn;
         settings.questionPack = questionPack_dropdown.options[questionPack_dropdown.value].text;
 
-        DBAccess.Instance.UpdateSettings(settings);
+        Debug.Log(settings);
+        DBAccess.Instance.SaveSettings(settings);
+
+        UpdateSettings();
     }
 
 
     #endregion
+
+    public void UpdateSettingsLanguage()
+    {
+        settings.language = language_dropdown.options[language_dropdown.value].text;
+        Debug.Log("language = " + settings.language);
+        LanguageSupport.Instance.SetLanguage(settings);
+        LanguageSupport.Instance.DropTexts();
+        LanguageSupport.Instance.InitializeSettingsTexts();
+        LoadTexts();
+
+    }
 
     void Menu()
     {
@@ -139,8 +165,15 @@ public class SettingsActivity : MonoBehaviour {
 
     private void UpdateSettings()
     {
-        language_dropdown.GetComponentInChildren<Text>().text =
-            settings.language;
+        //language_dropdown.GetComponentInChildren<Text>().text =
+        //  settings.language;
+
+        //Debug.Log("!");
+
+        LoadTexts();
+        UpdateSelectedLanguage();
+
+        
 
         science_toggle.isOn = settings.category_science;
         war_toggle.isOn = settings.category_war;
@@ -149,6 +182,20 @@ public class SettingsActivity : MonoBehaviour {
         
         questionPack_dropdown.GetComponentInChildren<Text>().text =
             settings.questionPack;
+    }
+
+    private void UpdateSelectedLanguage()
+    {
+        for (int i = 0; i < language_dropdown.options.Count; i++)
+        {
+            if (settings.language ==
+                language_dropdown.options[i].text)
+            {
+
+                language_dropdown.value = i;
+                return;
+            }
+        }
     }
 
     private void LoadTexts()
@@ -163,15 +210,27 @@ public class SettingsActivity : MonoBehaviour {
         others_text.text = LanguageSupport.Instance.GetText("category_others");
 
         questionPack_dropdown.options.Clear();
-        questionPack_dropdown.GetComponentInChildren<Text>().text = "CZ";
+        //questionPack_dropdown.GetComponentInChildren<Text>().text = "CZ";
         questionPack_dropdown.options.Add(new Dropdown.OptionData(
             LanguageSupport.Instance.GetText("settings_qp_czechia")));
         questionPack_dropdown.options.Add(new Dropdown.OptionData(
             LanguageSupport.Instance.GetText("settings_qp_england")));
 
-        
+        //Debug.Log(questionPack_dropdown.options[questionPack_dropdown.value].text);
+        questionPack_dropdown.GetComponentInChildren<Text>().text = 
+            questionPack_dropdown.options[questionPack_dropdown.value].text;
+        //Debug.Log(questionPack_dropdown.GetComponentInChildren<Text>().text);
 
     }
 
     #endregion
+    /*
+    
+
+    
+
+
+
+    */
+
 }

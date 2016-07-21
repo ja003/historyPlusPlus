@@ -1,1 +1,1 @@
-INSERT INTO questionsAvailable VALUES(0, "Others", "century", "TGM smrt", "TGM death", "TGM smrt___", "TGM death___", 20, 4, 7,666 ,666 );
+INSERT INTO QuestionTable VALUES(0,0,0, "Others", "century", "CZquestionAlias", "ENGquestionAlias", "CZquestion", "ENGquestion", 6, 6, 6,6 ,666 );

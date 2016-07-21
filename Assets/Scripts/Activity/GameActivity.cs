@@ -10,6 +10,7 @@ public class GameActivity : MonoBehaviour {
     Text questionText;
     Text period_text;
     Text solved_text;
+    Text score_text;
 
     public Question currentQuestion;
     AnswerActivity answerActivity;
@@ -17,7 +18,7 @@ public class GameActivity : MonoBehaviour {
 
     void Start () {
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
-
+        
         
         InitializeOptions();
 
@@ -26,9 +27,17 @@ public class GameActivity : MonoBehaviour {
         InitializeGameInfo();
 
         StartCoroutine(LateStart(0.1f));
+        /*if (SceneManager.GetActiveScene().buildIndex == 1)
+            OnLevelWasLoaded(1);*/
     }
 
-    
+    /*void OnLevelWasLoaded(int level)
+    {
+        if(level == 1)
+            
+
+    }/*/
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Mouse3) || Input.GetKeyDown(KeyCode.Escape))
@@ -47,6 +56,7 @@ public class GameActivity : MonoBehaviour {
 
         LoadNextQuestion();
         RefreshSolvedText();
+        RefreshScore();
     }
 
     private void InitializeGameVariables()
@@ -59,6 +69,8 @@ public class GameActivity : MonoBehaviour {
         period_text = GameObject.Find("period_text").
             GetComponent<Text>();
         solved_text = GameObject.Find("solved_text").
+            GetComponent<Text>();
+        score_text = GameObject.Find("score_text").
             GetComponent<Text>();
     }
 
@@ -126,10 +138,10 @@ public class GameActivity : MonoBehaviour {
     {
         if(GameObject.Find("GameInfo") == null)
         {
-            Debug.Log("no GameInfo found");
+            //Debug.Log("no GameInfo found");
             GameObject go = (GameObject)Instantiate(Resources.Load("Prefabs/GameInfo"));
             go.name = "GameInfo";
-            Debug.Log("GameInfo loaded");
+            //Debug.Log("GameInfo loaded");
         }
     }
     #endregion
@@ -138,11 +150,11 @@ public class GameActivity : MonoBehaviour {
     public void LoadNextQuestion()
     {
         currentQuestion = QuestionGenerator.Instance.GetRandomQuestion();
-        //if (currentQuestion.IsValid())
-            //Debug.Log("Question OK " + currentQuestion);
-        //else
-            //Debug.Log("NO more questions");
-        RefreshQuestion();
+        if (currentQuestion.IsValid())
+            RefreshQuestion();
+        else
+            answerActivity.NoMoreQuestions();
+        
     }
       
     public void SelectOption(int optionNumber)
@@ -158,6 +170,8 @@ public class GameActivity : MonoBehaviour {
     void Menu()
     {
         SceneManager.LoadScene("menu");
+        Destroy(GameObject.Find("AnswerActivity"));
+        Destroy(gameObject);
     }
     #endregion
 
@@ -200,6 +214,9 @@ public class GameActivity : MonoBehaviour {
             case Period.day:
                 text = LanguageSupport.Instance.GetText("game_day");
                 break;
+            default:
+                text = "NONE";
+                break;
         }
         period_text.text = text;
     }
@@ -221,6 +238,11 @@ public class GameActivity : MonoBehaviour {
         //LanguageSupport.Instance.UdatePeriodText(currentQuestion.currentPeriod);
         UdatePeriodText(currentQuestion);
         RefreshSolvedText();
+    }
+
+    public void RefreshScore()
+    {
+        score_text.text = GameInfo.Instance.score.score + "*";
     }
     #endregion
 }

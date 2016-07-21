@@ -1,0 +1,6 @@
+Score
+
+- added score table to DB
+- implemented score counter
+- implemented detection of no available questions
+- fixed settings storage

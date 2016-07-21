@@ -60,7 +60,7 @@ public class DataService  {
 
 	}
 
-    
+    #region Question
 
     public Question GetRandomQuestion(Category category, Language language)
     {
@@ -79,7 +79,7 @@ public class DataService  {
         }
         else
         {
-            Debug.Log("no more questions for category: " + category);
+            //Debug.Log("no more questions for category: " + category);
             return new Question();
         }
     }
@@ -106,21 +106,38 @@ public class DataService  {
     {
         return _connection.Get<QuestionTable>(question.id);
     }
-    
+    #endregion
+
     public TextElement GetTextElement(string code)
     {
         return _connection.Get<TextElement>(code);
     }
 
+    #region Settings
     public SettingsTable GetSettings()
     {
         return _connection.Table<SettingsTable>().Last();
     } 
 
-    public void UpdateSettings(SettingsTable settings)
+    public void SaveSettings(SettingsTable settings)
     {
         _connection.DeleteAll<SettingsTable>();
         _connection.Insert(settings);
         //_connection.Update(settings);
     }
+    #endregion
+
+    #region Score
+    public ScoreTable GetScore()
+    {
+        return _connection.Table<ScoreTable>().Last();
+    }
+
+    public void SaveScore(ScoreTable score)
+    {
+        _connection.DeleteAll<ScoreTable>();
+        _connection.Insert(score);
+        //_connection.Update(settings);
+    }
+    #endregion
 }
