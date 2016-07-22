@@ -1,0 +1,3 @@
+Layout scale
+
+- implemented layout responsivity to varying screen size

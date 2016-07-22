@@ -45,20 +45,38 @@ public class QuestionGenerator : MonoBehaviour {
 
     public int GetFirstOption(Question question)
     {
-        switch (question.currentPeriod)
+        int i = Random.Range(0, 1);
+        int output = 666;
+        switch (GameInfo.Instance.settings.difficulty)
         {
-            case Period.century:
-                return question.century + Random.Range(-5, 0);
-            case Period.decade:
-                return question.decade + Random.Range(-5, 0);
-            case Period.year:
-                return question.year + Random.Range(-5, 0);
-            case Period.month:
-                return question.month + Random.Range(-5, 0);
-            case Period.day:
-                return question.day + Random.Range(-5, 0);
+            case "easy":
+                switch (question.currentPeriod)
+                {
+                    case Period.century:
+                        output = question.century -i;
+                        break;
+                    case Period.decade:
+                        output = question.decade -i;
+                        break;
+                    case Period.year:
+                        output = question.year -i;
+                        break;
+                    case Period.month:
+                        output = question.month -i;
+                        break;
+                    case Period.day:
+                        output = question.day - i;
+                        break;
+                }
+                break;
+            case "hard":
+                output = i;
+                break;
         }
-        return 666;
+        if (output < 0)
+            return 0;
+        else
+            return output;
     }
 
     /// <summary>

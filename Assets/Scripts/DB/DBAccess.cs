@@ -74,7 +74,9 @@ public class DBAccess : MonoBehaviour {
     #region Settings
     public SettingsTable GetSettings()
     {
-        return ds.GetSettings();
+        SettingsTable settings = ds.GetSettings();
+        settings.CheckValidity();
+        return settings;
     }
 
     public void SaveSettings(SettingsTable settings)

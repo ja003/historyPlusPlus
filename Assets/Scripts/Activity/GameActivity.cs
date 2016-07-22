@@ -12,8 +12,18 @@ public class GameActivity : MonoBehaviour {
     Text solved_text;
     Text score_text;
 
+    RectTransform period_bg_rect;
+    RectTransform period_text_rect;
+    RectTransform question_bg_rect;
+    RectTransform question_text_rect;
+
     public Question currentQuestion;
     AnswerActivity answerActivity;
+
+    static float periodPosY = Screen.height / 2;
+    static float periodHeight = 40;
+    static float gapSize = 10;
+    static float leftMargin = 50;
 
 
     void Start () {
@@ -26,7 +36,7 @@ public class GameActivity : MonoBehaviour {
 
         InitializeGameInfo();
 
-        SetOptionsWidth();
+        
 
         StartCoroutine(LateStart(0.1f));
         /*if (SceneManager.GetActiveScene().buildIndex == 1)
@@ -55,6 +65,7 @@ public class GameActivity : MonoBehaviour {
         //Your Function You Want to Call
         LanguageSupport.Instance.InitializeGameTexts();
         LanguageSupport.Instance.InitializeAnswerTexts();
+        SetLayoutParameters();
 
         LoadNextQuestion();
         RefreshSolvedText();
@@ -68,8 +79,19 @@ public class GameActivity : MonoBehaviour {
 
         questionText = GameObject.Find("question_text").
             GetComponent<Text>();
+
+        question_bg_rect = GameObject.Find("question_bg").
+            GetComponent<RectTransform>();
+        question_text_rect = GameObject.Find("question_text").
+            GetComponent<RectTransform>();
+
         period_text = GameObject.Find("period_text").
             GetComponent<Text>();
+        period_bg_rect = GameObject.Find("period_bg").
+            GetComponent<RectTransform>();
+        period_text_rect = GameObject.Find("period_text").
+            GetComponent<RectTransform>();
+
         solved_text = GameObject.Find("solved_text").
             GetComponent<Text>();
         score_text = GameObject.Find("score_text").
@@ -81,62 +103,58 @@ public class GameActivity : MonoBehaviour {
         options = new Options();
 
         options.opt_1_obj = GameObject.Find("opt_1");
-        options.opt_1 = GameObject.Find("opt_1").
-            GetComponent<Button>();
+        options.opt_1 = options.opt_1_obj.GetComponent<Button>();
         options.opt_1.onClick.AddListener(() => SelectOption(1));
-        options.opt_1_text = GameObject.Find("opt_1").
-            GetComponentInChildren<Text>();
+        options.opt_1_text = options.opt_1_obj.GetComponentInChildren<Text>();
+        options.opt_1_rect = options.opt_1_obj.GetComponent<RectTransform>();
 
         options.opt_2_obj = GameObject.Find("opt_2");
-        options.opt_2 = GameObject.Find("opt_2").
-            GetComponent<Button>();
+        options.opt_2 = options.opt_2_obj.GetComponent<Button>();
         options.opt_2.onClick.AddListener(() => SelectOption(2));
-        options.opt_2_text = GameObject.Find("opt_2").
-            GetComponentInChildren<Text>();
+        options.opt_2_text = options.opt_2_obj.GetComponentInChildren<Text>();
+        options.opt_2_rect = options.opt_2_obj.GetComponent<RectTransform>();
 
         options.opt_3_obj = GameObject.Find("opt_3");
-        options.opt_3 = GameObject.Find("opt_3").
-            GetComponent<Button>();
+        options.opt_3 = options.opt_3_obj.GetComponent<Button>();
         options.opt_3.onClick.AddListener(() => SelectOption(3));
-        options.opt_3_text = GameObject.Find("opt_3").
-            GetComponentInChildren<Text>();
+        options.opt_3_text = options.opt_3_obj.GetComponentInChildren<Text>();
+        options.opt_3_rect = options.opt_3_obj.GetComponent<RectTransform>();
 
-        options.opt_4 = GameObject.Find("opt_4").
-            GetComponent<Button>();
+        options.opt_4_obj = GameObject.Find("opt_4");
+        options.opt_4 = options.opt_4_obj.GetComponent<Button>();
         options.opt_4.onClick.AddListener(() => SelectOption(4));
-        options.opt_4_text = GameObject.Find("opt_4").
-            GetComponentInChildren<Text>();
+        options.opt_4_text = options.opt_4_obj.GetComponentInChildren<Text>();
+        options.opt_4_rect = options.opt_4_obj.GetComponent<RectTransform>();
 
-        options.opt_5 = GameObject.Find("opt_5").
-            GetComponent<Button>();
+        options.opt_5_obj = GameObject.Find("opt_5");
+        options.opt_5 = options.opt_5_obj.GetComponent<Button>();
         options.opt_5.onClick.AddListener(() => SelectOption(5));
-        options.opt_5_text = GameObject.Find("opt_5").
-            GetComponentInChildren<Text>();
+        options.opt_5_text = options.opt_5_obj.GetComponentInChildren<Text>();
+        options.opt_5_rect = options.opt_5_obj.GetComponent<RectTransform>();
 
-        options.opt_6 = GameObject.Find("opt_6").
-            GetComponent<Button>();
+        options.opt_6_obj = GameObject.Find("opt_6");
+        options.opt_6 = options.opt_6_obj.GetComponent<Button>();
         options.opt_6.onClick.AddListener(() => SelectOption(6));
-        options.opt_6_text = GameObject.Find("opt_6").
-            GetComponentInChildren<Text>();
+        options.opt_6_text = options.opt_6_obj.GetComponentInChildren<Text>();
+        options.opt_6_rect = options.opt_6_obj.GetComponent<RectTransform>();
 
-        options.opt_7 = GameObject.Find("opt_7").
-            GetComponent<Button>();
+        options.opt_7_obj = GameObject.Find("opt_7");
+        options.opt_7 = options.opt_7_obj.GetComponent<Button>();
         options.opt_7.onClick.AddListener(() => SelectOption(7));
-        options.opt_7_text = GameObject.Find("opt_7").
-            GetComponentInChildren<Text>();
+        options.opt_7_text = options.opt_7_obj.GetComponentInChildren<Text>();
+        options.opt_7_rect = options.opt_7_obj.GetComponent<RectTransform>();
 
-        options.opt_8 = GameObject.Find("opt_8").
-            GetComponent<Button>();
+        options.opt_8_obj = GameObject.Find("opt_8");
+        options.opt_8 = options.opt_8_obj.GetComponent<Button>();
         options.opt_8.onClick.AddListener(() => SelectOption(8));
-        options.opt_8_text = GameObject.Find("opt_8").
-            GetComponentInChildren<Text>();
+        options.opt_8_text = options.opt_8_obj.GetComponentInChildren<Text>();
+        options.opt_8_rect = options.opt_8_obj.GetComponent<RectTransform>();
 
-        options.opt_9 = GameObject.Find("opt_9").
-            GetComponent<Button>();
+        options.opt_9_obj = GameObject.Find("opt_9");
+        options.opt_9 = options.opt_9_obj.GetComponent<Button>();
         options.opt_9.onClick.AddListener(() => SelectOption(9));
-        options.opt_9_text = GameObject.Find("opt_9").
-            GetComponentInChildren<Text>();
-
+        options.opt_9_text = options.opt_9_obj.GetComponentInChildren<Text>();
+        options.opt_9_rect = options.opt_9_obj.GetComponent<RectTransform>();
     }
 
     private void InitializeGameInfo()
@@ -164,11 +182,43 @@ public class GameActivity : MonoBehaviour {
       
     public void SelectOption(int optionNumber)
     {
-
-        answerActivity.ShowAnswerStatus(
-            QuestionGenerator.Instance.
-            CheckAnswer(currentQuestion,
-            options.currentFirstValue + optionNumber - 1));
+        switch (GameInfo.Instance.settings.difficulty)
+        {
+            case "easy":
+                switch (optionNumber)
+                {
+                    case 1:
+                        answerActivity.ShowAnswerStatus(
+                            QuestionGenerator.Instance.CheckAnswer(
+                                currentQuestion,options.currentFirstValue));
+                        break;
+                    case 3:
+                        answerActivity.ShowAnswerStatus(
+                            QuestionGenerator.Instance.CheckAnswer(
+                                currentQuestion, options.currentFirstValue+1));
+                        break;
+                    case 7:
+                        answerActivity.ShowAnswerStatus(
+                            QuestionGenerator.Instance.CheckAnswer(
+                                currentQuestion, options.currentFirstValue+2));
+                        break;
+                    case 9:
+                        answerActivity.ShowAnswerStatus(
+                            QuestionGenerator.Instance.CheckAnswer(
+                                currentQuestion, options.currentFirstValue+3));
+                        break;
+                }
+                break;
+            case "hard":
+                answerActivity.ShowAnswerStatus(
+                    QuestionGenerator.Instance.CheckAnswer(
+                        currentQuestion,options.currentFirstValue + optionNumber - 1));
+                break;
+            default:
+                Debug.Log("difficulty fail");
+                break;
+        }
+        
         RefreshSolvedText();
     }
 
@@ -187,16 +237,51 @@ public class GameActivity : MonoBehaviour {
         string appendix = question.GetPeriodAppendix();
         string prefix = question.GetPeriodPrefix();
 
+        switch (GameInfo.Instance.settings.difficulty)
+        {
+            case "easy":
+                options.opt_2.gameObject.SetActive(false);
+                options.opt_4.gameObject.SetActive(false);
+                options.opt_5.gameObject.SetActive(false);
+                options.opt_6.gameObject.SetActive(false);
+                options.opt_8.gameObject.SetActive(false);
+                break;
+            case "hard":
+                options.opt_2.gameObject.SetActive(true);
+                options.opt_4.gameObject.SetActive(true);
+                options.opt_5.gameObject.SetActive(true);
+                options.opt_6.gameObject.SetActive(true);
+                options.opt_8.gameObject.SetActive(true);
+                break;
+        }
 
-        options.opt_1_text.text = prefix + options.currentFirstValue + appendix;
-        options.opt_2_text.text = prefix + (options.currentFirstValue +1) +appendix;
-        options.opt_3_text.text = prefix + (options.currentFirstValue +2) + appendix;
-        options.opt_4_text.text = prefix + (options.currentFirstValue +3) + appendix;
-        options.opt_5_text.text = prefix + (options.currentFirstValue +4) + appendix;
-        options.opt_6_text.text = prefix + (options.currentFirstValue +5) + appendix;
-        options.opt_7_text.text = prefix + (options.currentFirstValue +6) + appendix;
-        options.opt_8_text.text = prefix + (options.currentFirstValue +7) + appendix;
-        options.opt_9_text.text = prefix + (options.currentFirstValue +8)+ appendix;
+       switch (GameInfo.Instance.settings.difficulty)
+        {
+            case "easy":
+                options.opt_1_text.text = prefix + options.currentFirstValue + appendix;
+                options.opt_3_text.text = prefix + (options.currentFirstValue + 1) + appendix;
+                options.opt_7_text.text = prefix + (options.currentFirstValue + 2) + appendix;
+                options.opt_9_text.text = prefix + (options.currentFirstValue + 3) + appendix;
+                break;
+            case "hard":
+                options.opt_1_text.text = prefix + options.currentFirstValue + appendix;
+                options.opt_2_text.text = prefix + (options.currentFirstValue + 1) + appendix;
+                options.opt_3_text.text = prefix + (options.currentFirstValue + 2) + appendix;
+                options.opt_4_text.text = prefix + (options.currentFirstValue + 3) + appendix;
+                options.opt_5_text.text = prefix + (options.currentFirstValue + 4) + appendix;
+                options.opt_6_text.text = prefix + (options.currentFirstValue + 5) + appendix;
+                options.opt_7_text.text = prefix + (options.currentFirstValue + 6) + appendix;
+                options.opt_8_text.text = prefix + (options.currentFirstValue + 7) + appendix;
+                options.opt_9_text.text = prefix + (options.currentFirstValue + 8) + appendix;
+                break;
+            default:
+                Debug.Log("difficulty fail");
+                options.opt_1_text.text = prefix + options.currentFirstValue + appendix;
+                options.opt_3_text.text = prefix + (options.currentFirstValue + 1) + appendix;
+                options.opt_7_text.text = prefix + (options.currentFirstValue + 2) + appendix;
+                options.opt_9_text.text = prefix + (options.currentFirstValue + 3) + appendix;
+                break;
+        }        
     }
     
     private void UdatePeriodText(Question question)
@@ -250,6 +335,69 @@ public class GameActivity : MonoBehaviour {
         score_text.text = GameInfo.Instance.score.score + "*";
     }
 
+    private void SetLayoutParameters()
+    {
+        SetOptionsWidth();
+        SetPeriodPosition();
+        SetOptionsPosition();
+        SetQuestionPosition();
+
+    }
+    private void SetPeriodPosition()
+    {
+        //period_bg_rect.anchoredPosition
+
+        period_bg_rect.anchoredPosition = new Vector2(
+            period_bg_rect.anchoredPosition.x,
+            periodPosY);
+        period_text_rect.anchoredPosition = new Vector2(
+            period_text_rect.anchoredPosition.x,
+            periodPosY);
+    }
+
+    private void SetQuestionPosition()
+    {
+        question_bg_rect.offsetMin = new Vector2(
+            question_bg_rect.offsetMin.x,
+            periodPosY + periodHeight + gapSize);
+        question_text_rect.offsetMin = new Vector2(
+            question_text_rect.offsetMin.x,
+            periodPosY + periodHeight + gapSize);
+    }
+
+    private void SetOptionsPosition()
+    {
+        options.opt_1_rect.anchoredPosition = new Vector2(
+            options.opt_1_rect.anchoredPosition.x,
+            periodPosY - gapSize);
+        options.opt_2_rect.anchoredPosition = new Vector2(
+            options.opt_2_rect.anchoredPosition.x,
+            periodPosY - gapSize);
+        options.opt_3_rect.anchoredPosition = new Vector2(
+            options.opt_3_rect.anchoredPosition.x,
+            periodPosY - gapSize);
+
+        options.opt_4_rect.anchoredPosition = new Vector2(
+            options.opt_4_rect.anchoredPosition.x,
+            periodPosY /2);
+        options.opt_5_rect.anchoredPosition = new Vector2(
+            options.opt_5_rect.anchoredPosition.x,
+            periodPosY / 2);
+        options.opt_6_rect.anchoredPosition = new Vector2(
+            options.opt_6_rect.anchoredPosition.x,
+            periodPosY / 2);
+
+        options.opt_7_rect.anchoredPosition = new Vector2(
+            options.opt_7_rect.anchoredPosition.x,
+            gapSize);
+        options.opt_8_rect.anchoredPosition = new Vector2(
+            options.opt_8_rect.anchoredPosition.x,
+            gapSize);
+        options.opt_9_rect.anchoredPosition = new Vector2(
+            options.opt_9_rect.anchoredPosition.x,
+            gapSize);
+    }
+
     private void SetOptionsWidth()
     {
         //options.opt_1_obj.GetComponent<RectTransform>().sizeDelta = 
@@ -264,12 +412,30 @@ public class GameActivity : MonoBehaviour {
         SetOptionWidth(options.opt_9);
 
     }
-
+      
     private void SetOptionWidth(Button option)
     {
-        option.image.rectTransform.sizeDelta =
-                    new Vector2(Screen.width / 4,
-                    options.opt_3.image.rectTransform.sizeDelta.y);
+        switch (GameInfo.Instance.settings.difficulty)
+        {
+            case "easy":
+                option.image.rectTransform.sizeDelta =
+                    //new Vector2(Screen.width / 2.75f,Screen.height/4.8f);
+                    new Vector2(
+                        (Screen.width - 2*leftMargin - gapSize)/2, 
+                        (periodPosY - 3*gapSize) / 2);
+                break;
+            case "hard":
+                option.image.rectTransform.sizeDelta =
+                    new Vector2(
+                        (Screen.width - 100 - 2*gapSize)/3,
+                        (periodPosY - 4 * gapSize) / 3);
+                //new Vector2(Screen.width / 4,options.opt_3.image.rectTransform.sizeDelta.y);
+                break;
+            default:
+                Debug.Log("difficulty fail");
+                break;
+        }
+        
     }
 
     #endregion
