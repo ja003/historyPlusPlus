@@ -139,7 +139,6 @@ public class AnswerActivity : MonoBehaviour {
     #region Vizualization
     private void ShowAnsverCanvas()
     {
-        Debug.Log(answerCanvas);
         answerCanvas.enabled = true;
         top_btn_obj.SetActive(true);
     }

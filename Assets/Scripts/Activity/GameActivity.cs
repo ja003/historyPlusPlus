@@ -26,6 +26,8 @@ public class GameActivity : MonoBehaviour {
 
         InitializeGameInfo();
 
+        SetOptionsWidth();
+
         StartCoroutine(LateStart(0.1f));
         /*if (SceneManager.GetActiveScene().buildIndex == 1)
             OnLevelWasLoaded(1);*/
@@ -78,18 +80,21 @@ public class GameActivity : MonoBehaviour {
     {
         options = new Options();
 
+        options.opt_1_obj = GameObject.Find("opt_1");
         options.opt_1 = GameObject.Find("opt_1").
             GetComponent<Button>();
         options.opt_1.onClick.AddListener(() => SelectOption(1));
         options.opt_1_text = GameObject.Find("opt_1").
             GetComponentInChildren<Text>();
 
+        options.opt_2_obj = GameObject.Find("opt_2");
         options.opt_2 = GameObject.Find("opt_2").
             GetComponent<Button>();
         options.opt_2.onClick.AddListener(() => SelectOption(2));
         options.opt_2_text = GameObject.Find("opt_2").
             GetComponentInChildren<Text>();
 
+        options.opt_3_obj = GameObject.Find("opt_3");
         options.opt_3 = GameObject.Find("opt_3").
             GetComponent<Button>();
         options.opt_3.onClick.AddListener(() => SelectOption(3));
@@ -244,5 +249,28 @@ public class GameActivity : MonoBehaviour {
     {
         score_text.text = GameInfo.Instance.score.score + "*";
     }
+
+    private void SetOptionsWidth()
+    {
+        //options.opt_1_obj.GetComponent<RectTransform>().sizeDelta = 
+        SetOptionWidth(options.opt_1);
+        SetOptionWidth(options.opt_2);
+        SetOptionWidth(options.opt_3);
+        SetOptionWidth(options.opt_4);
+        SetOptionWidth(options.opt_5);
+        SetOptionWidth(options.opt_6);
+        SetOptionWidth(options.opt_7);
+        SetOptionWidth(options.opt_8);
+        SetOptionWidth(options.opt_9);
+
+    }
+
+    private void SetOptionWidth(Button option)
+    {
+        option.image.rectTransform.sizeDelta =
+                    new Vector2(Screen.width / 4,
+                    options.opt_3.image.rectTransform.sizeDelta.y);
+    }
+
     #endregion
 }

@@ -4,6 +4,11 @@ using UnityEngine.UI;
 
 public class Options {
 
+    public GameObject opt_1_obj;
+    public GameObject opt_2_obj;
+    public GameObject opt_3_obj;
+
+
     public Button opt_1;
     public Button opt_2;
     public Button opt_3;

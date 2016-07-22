@@ -7,8 +7,9 @@ public class Question {
     public string text = "";
     public bool completed = false;
     public bool solved = false;
-    public Category category = Category.Others;
+    public Category category;
     public Period currentPeriod;
+    public Period startPeriod;
 
     public int century = 666;
     public int decade = 666;
@@ -135,6 +136,13 @@ public class Question {
         if (solved)
             this.solved = solved;
         
+    }
+
+    private void ResetQuestion()
+    {
+        currentPeriod = startPeriod;
+        solved = false;
+        completed = false;
     }
 
     public bool IsValid()

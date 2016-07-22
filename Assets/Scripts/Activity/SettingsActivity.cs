@@ -31,7 +31,8 @@ public class SettingsActivity : MonoBehaviour {
 
         InitializeSettingsVariables();
 
-        StartCoroutine(LateStart(0.01f));
+        StartCoroutine(LateStart(0.0f));
+
     }
 
     void Update()
