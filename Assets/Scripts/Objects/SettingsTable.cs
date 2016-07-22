@@ -27,7 +27,15 @@ public class SettingsTable {
         if (questionPack.Length == 0)
             questionPack = "česko";
         if (difficulty.Length == 0)
-            difficulty = "easy";
+            difficulty = "lehká";
+    }
+
+    public Difficulty GetDifficulty()
+    {
+        if (difficulty == "easy" || difficulty == "lehká")
+            return Difficulty.easy;
+        else
+            return Difficulty.hard;
     }
 
     public override string ToString()

@@ -45,38 +45,85 @@ public class QuestionGenerator : MonoBehaviour {
 
     public int GetFirstOption(Question question)
     {
-        int i = Random.Range(0, 1);
+        Difficulty difficulty = GameInfo.Instance.settings.GetDifficulty();
+
+        int i = difficulty == Difficulty.easy ? 
+            Random.Range(0, 3) : Random.Range(0,9);
         int output = 666;
-        switch (GameInfo.Instance.settings.difficulty)
+
+        switch (question.currentPeriod)
         {
-            case "easy":
-                switch (question.currentPeriod)
+            case Period.century:
+                output = question.century -i;
+                switch (difficulty)
                 {
-                    case Period.century:
-                        output = question.century -i;
+                    case Difficulty.easy:
+                        if (output > 17)
+                            return 17;
                         break;
-                    case Period.decade:
-                        output = question.decade -i;
-                        break;
-                    case Period.year:
-                        output = question.year -i;
-                        break;
-                    case Period.month:
-                        output = question.month -i;
-                        break;
-                    case Period.day:
-                        output = question.day - i;
+                    case Difficulty.hard:
+                        if (output > 12)
+                            return 12;
                         break;
                 }
                 break;
-            case "hard":
-                output = i;
+            case Period.decade:
+                output = question.decade -i;
+                if (output < 0)
+                    return 0;
+                break;
+            case Period.year:
+                output = question.year -i;
+                if (output < 0)
+                    return 0;
+                switch (difficulty)
+                {
+                    case Difficulty.easy:
+                        if (output > 6)
+                            return 6;
+                        break;
+                    case Difficulty.hard:
+                        if (output > 1)
+                            return 1;
+                        break;
+                }
+                break;
+            case Period.month:
+                output = question.month -i;
+                if (output < 0)
+                    return 0;
+                switch (difficulty)
+                {
+                    case Difficulty.easy:
+                        if (output > 9)
+                            return 9;
+                        break;
+                    case Difficulty.hard:
+                        if (output > 4)
+                            return 4;
+                        break;
+                }
+                break;
+            case Period.day:
+                output = question.day - i;
+                if (output < 0)
+                    return 0;
+                switch (difficulty)
+                {
+                    case Difficulty.easy:
+                        if (output > 28)
+                            return 28;
+                        break;
+                    case Difficulty.hard:
+                        if (output > 23)
+                            return 23;
+                        break;
+                }
+
                 break;
         }
-        if (output < 0)
-            return 0;
-        else
-            return output;
+        
+        return output;
     }
 
     /// <summary>

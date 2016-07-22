@@ -182,9 +182,9 @@ public class GameActivity : MonoBehaviour {
       
     public void SelectOption(int optionNumber)
     {
-        switch (GameInfo.Instance.settings.difficulty)
+        switch (GameInfo.Instance.settings.GetDifficulty())
         {
-            case "easy":
+            case Difficulty.easy:
                 switch (optionNumber)
                 {
                     case 1:
@@ -209,7 +209,7 @@ public class GameActivity : MonoBehaviour {
                         break;
                 }
                 break;
-            case "hard":
+            case Difficulty.hard:
                 answerActivity.ShowAnswerStatus(
                     QuestionGenerator.Instance.CheckAnswer(
                         currentQuestion,options.currentFirstValue + optionNumber - 1));
@@ -237,16 +237,16 @@ public class GameActivity : MonoBehaviour {
         string appendix = question.GetPeriodAppendix();
         string prefix = question.GetPeriodPrefix();
 
-        switch (GameInfo.Instance.settings.difficulty)
+        switch (GameInfo.Instance.settings.GetDifficulty())
         {
-            case "easy":
+            case Difficulty.easy:
                 options.opt_2.gameObject.SetActive(false);
                 options.opt_4.gameObject.SetActive(false);
                 options.opt_5.gameObject.SetActive(false);
                 options.opt_6.gameObject.SetActive(false);
                 options.opt_8.gameObject.SetActive(false);
                 break;
-            case "hard":
+            case Difficulty.hard:
                 options.opt_2.gameObject.SetActive(true);
                 options.opt_4.gameObject.SetActive(true);
                 options.opt_5.gameObject.SetActive(true);
@@ -255,15 +255,15 @@ public class GameActivity : MonoBehaviour {
                 break;
         }
 
-       switch (GameInfo.Instance.settings.difficulty)
+       switch (GameInfo.Instance.settings.GetDifficulty())
         {
-            case "easy":
+            case Difficulty.easy:
                 options.opt_1_text.text = prefix + options.currentFirstValue + appendix;
                 options.opt_3_text.text = prefix + (options.currentFirstValue + 1) + appendix;
                 options.opt_7_text.text = prefix + (options.currentFirstValue + 2) + appendix;
                 options.opt_9_text.text = prefix + (options.currentFirstValue + 3) + appendix;
                 break;
-            case "hard":
+            case Difficulty.hard:
                 options.opt_1_text.text = prefix + options.currentFirstValue + appendix;
                 options.opt_2_text.text = prefix + (options.currentFirstValue + 1) + appendix;
                 options.opt_3_text.text = prefix + (options.currentFirstValue + 2) + appendix;
@@ -276,10 +276,6 @@ public class GameActivity : MonoBehaviour {
                 break;
             default:
                 Debug.Log("difficulty fail");
-                options.opt_1_text.text = prefix + options.currentFirstValue + appendix;
-                options.opt_3_text.text = prefix + (options.currentFirstValue + 1) + appendix;
-                options.opt_7_text.text = prefix + (options.currentFirstValue + 2) + appendix;
-                options.opt_9_text.text = prefix + (options.currentFirstValue + 3) + appendix;
                 break;
         }        
     }
@@ -415,16 +411,16 @@ public class GameActivity : MonoBehaviour {
       
     private void SetOptionWidth(Button option)
     {
-        switch (GameInfo.Instance.settings.difficulty)
+        switch (GameInfo.Instance.settings.GetDifficulty())
         {
-            case "easy":
+            case Difficulty.easy:
                 option.image.rectTransform.sizeDelta =
                     //new Vector2(Screen.width / 2.75f,Screen.height/4.8f);
                     new Vector2(
                         (Screen.width - 2*leftMargin - gapSize)/2, 
                         (periodPosY - 3*gapSize) / 2);
                 break;
-            case "hard":
+            case Difficulty.hard:
                 option.image.rectTransform.sizeDelta =
                     new Vector2(
                         (Screen.width - 100 - 2*gapSize)/3,

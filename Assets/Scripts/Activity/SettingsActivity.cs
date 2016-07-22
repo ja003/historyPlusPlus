@@ -8,6 +8,7 @@ public class SettingsActivity : MonoBehaviour {
     Text language_text;
     Text category_text;
     Text questionPack_text;
+    Text difficulty_text;
 
     Text science_text;
     Text war_text;
@@ -21,6 +22,7 @@ public class SettingsActivity : MonoBehaviour {
 
     Dropdown questionPack_dropdown;
     Dropdown language_dropdown;
+    Dropdown difficulty_dropdown;
 
     SettingsTable settings;
 
@@ -77,6 +79,8 @@ public class SettingsActivity : MonoBehaviour {
             GetComponent<Text>();
         questionPack_text = GameObject.Find("questionPack_text").
             GetComponent<Text>();
+        difficulty_text = GameObject.Find("difficulty_text").
+            GetComponent<Text>();
 
         science_text = GameObject.Find("science_text").
             GetComponent<Text>();
@@ -99,6 +103,8 @@ public class SettingsActivity : MonoBehaviour {
         questionPack_dropdown = GameObject.Find("questionPack_dropdown").
             GetComponent<Dropdown>();        
         language_dropdown = GameObject.Find("language_dropdown").
+            GetComponent<Dropdown>();
+        difficulty_dropdown = GameObject.Find("difficulty_dropdown").
             GetComponent<Dropdown>();
 
 
@@ -136,6 +142,7 @@ public class SettingsActivity : MonoBehaviour {
         settings.category_politics= politics_toggle.isOn;
         settings.category_others= others_toggle.isOn;
         settings.questionPack = questionPack_dropdown.options[questionPack_dropdown.value].text;
+        settings.difficulty = difficulty_dropdown.options[difficulty_dropdown.value].text;
 
         Debug.Log(settings);
         DBAccess.Instance.SaveSettings(settings);
@@ -166,44 +173,42 @@ public class SettingsActivity : MonoBehaviour {
 
     private void UpdateSettings()
     {
-        //language_dropdown.GetComponentInChildren<Text>().text =
-        //  settings.language;
-
-        //Debug.Log("!");
 
         LoadTexts();
-        UpdateSelectedLanguage();
-
-        
+        UpdateDropdown(language_dropdown, settings.language);
+        UpdateDropdown(questionPack_dropdown, settings.questionPack);
+        UpdateDropdown(difficulty_dropdown, settings.difficulty);
 
         science_toggle.isOn = settings.category_science;
         war_toggle.isOn = settings.category_war;
         politics_toggle.isOn = settings.category_politics;
         others_toggle.isOn = settings.category_others;
         
-        questionPack_dropdown.GetComponentInChildren<Text>().text =
-            settings.questionPack;
+        //questionPack_dropdown.GetComponentInChildren<Text>().text =
+          //  settings.questionPack;
     }
 
-    private void UpdateSelectedLanguage()
+    private void UpdateDropdown(Dropdown dropdown, string selected)
     {
-        for (int i = 0; i < language_dropdown.options.Count; i++)
+        for (int i = 0; i < dropdown.options.Count; i++)
         {
-            if (settings.language ==
-                language_dropdown.options[i].text)
+            if (selected == dropdown.options[i].text)
             {
-
-                language_dropdown.value = i;
+                dropdown.value = i;
+                dropdown.GetComponentInChildren<Text>().text =
+                    dropdown.options[dropdown.value].text;
                 return;
             }
         }
     }
+    
 
     private void LoadTexts()
     {
         language_text.text = LanguageSupport.Instance.GetText("settings_language");
         category_text.text = LanguageSupport.Instance.GetText("settings_category");
         questionPack_text.text = LanguageSupport.Instance.GetText("settings_questionPack");
+        difficulty_text.text = LanguageSupport.Instance.GetText("settings_difficulty");
 
         science_text.text = LanguageSupport.Instance.GetText("category_science");
         war_text.text = LanguageSupport.Instance.GetText("category_war");
@@ -211,16 +216,18 @@ public class SettingsActivity : MonoBehaviour {
         others_text.text = LanguageSupport.Instance.GetText("category_others");
 
         questionPack_dropdown.options.Clear();
-        //questionPack_dropdown.GetComponentInChildren<Text>().text = "CZ";
         questionPack_dropdown.options.Add(new Dropdown.OptionData(
             LanguageSupport.Instance.GetText("settings_qp_czechia")));
         questionPack_dropdown.options.Add(new Dropdown.OptionData(
             LanguageSupport.Instance.GetText("settings_qp_england")));
 
-        //Debug.Log(questionPack_dropdown.options[questionPack_dropdown.value].text);
-        questionPack_dropdown.GetComponentInChildren<Text>().text = 
-            questionPack_dropdown.options[questionPack_dropdown.value].text;
-        //Debug.Log(questionPack_dropdown.GetComponentInChildren<Text>().text);
+        difficulty_dropdown.options.Clear();
+        difficulty_dropdown.options.Add(new Dropdown.OptionData(
+            LanguageSupport.Instance.GetText("settings_diff_easy")));
+        difficulty_dropdown.options.Add(new Dropdown.OptionData(
+            LanguageSupport.Instance.GetText("settings_difficulty")));
+
+
 
     }
 

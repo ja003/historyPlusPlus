@@ -1,0 +1,4 @@
+Difficulty 
+
+- added option to choose difficulty (easy/hard)
+- fixed layout size

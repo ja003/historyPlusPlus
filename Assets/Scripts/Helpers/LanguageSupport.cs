@@ -65,10 +65,14 @@ public class LanguageSupport : MonoBehaviour
     {
         AddText("settings_language");
         AddText("settings_category");
+
         AddText("settings_questionPack");
-        
         AddText("settings_qp_czechia");
         AddText("settings_qp_england");
+        
+        AddText("settings_difficulty");
+        AddText("settings_diff_easy");
+        AddText("settings_diff_hard");
 
         InitializeCategoryTexts();
     }
