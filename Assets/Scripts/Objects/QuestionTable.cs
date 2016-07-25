@@ -10,6 +10,7 @@ public class QuestionTable :ICloneable{
     public string category { get; set; }
     public string currentPeriod { get; set; }
     public string startPeriod { get; set; }
+    public string questionPack { get; set; }
 
     public string alias_CZ { get; set; }
     public string alias_ENG { get; set; }
@@ -38,6 +39,7 @@ public class QuestionTable :ICloneable{
         q.category = (Category)Enum.Parse(typeof(Category), category);
         q.currentPeriod = (Period)Enum.Parse(typeof(Period), currentPeriod);
         q.startPeriod = (Period)Enum.Parse(typeof(Period), startPeriod);
+        q.questionPack= (QuestionPack)Enum.Parse(typeof(QuestionPack), questionPack);
 
         switch (language)
         {

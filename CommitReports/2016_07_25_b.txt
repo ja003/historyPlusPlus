@@ -1,0 +1,4 @@
+Question pack
+
+- implemented drawing questions from selected question pack
+- fixed settings update

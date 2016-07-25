@@ -26,14 +26,12 @@ public class AnswerActivity : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        Debug.Log("AnswerActivity");
+        //Debug.Log("AnswerActivity");
         /*if (SceneManager.GetActiveScene().buildIndex == 1)  
             OnLevelWasLoaded(1);
         */
         answerCanvas = GameObject.Find("AnswerCanvas").
             GetComponent<Canvas>();
-        Debug.Log(answerCanvas);
-        Debug.Log(answerCanvas.enabled);
 
         answer_text = GameObject.Find("answer_text").
             GetComponent<Text>();

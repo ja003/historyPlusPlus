@@ -1,1 +1,1 @@
-INSERT INTO QuestionTable VALUES(0,0,0, "Others", "century", "CZquestionAlias", "ENGquestionAlias", "CZquestion", "ENGquestion", 6, 6, 6,6 ,666 );
+INSERT INTO QuestionTable VALUES(?,0,0, "Others", "century","century", "CZquestionAlias4", "ENGquestionAlias4", "CZquestion4", "ENGquestion4", 6, 6, 6,6 ,666 );

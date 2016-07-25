@@ -1,5 +1,7 @@
 ﻿using SQLite4Unity3d;
+using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class SettingsTable {
 
@@ -32,10 +34,36 @@ public class SettingsTable {
 
     public Difficulty GetDifficulty()
     {
+        return GetDifficulty(difficulty);
+    }
+
+    public Difficulty GetDifficulty(string difficulty)
+    {
         if (difficulty == "easy" || difficulty == "lehká")
             return Difficulty.easy;
         else
             return Difficulty.hard;
+    }
+
+    public QuestionPack GetQuestionPack(string questionPack)
+    {
+        if (questionPack == "česko")
+            return QuestionPack.czechia;
+        else if (questionPack == "anglie")
+            return QuestionPack.england;
+        else
+        {
+            if(Enum.IsDefined(typeof(QuestionPack), questionPack))
+            {
+                QuestionPack parsedQP = (QuestionPack)Enum.Parse(typeof(QuestionPack), questionPack);
+                return parsedQP;
+            }            
+            else
+            {
+                Debug.Log("QuestionPack parse fail");
+                return QuestionPack.general;
+            }
+        }
     }
 
     public override string ToString()

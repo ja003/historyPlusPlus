@@ -27,7 +27,8 @@ public class QuestionGenerator : MonoBehaviour {
         {
             int i = Random.Range(0, c.Count);
             q = DBAccess.Instance.GetRandomQuestion(c[i],
-            LanguageSupport.Instance.language);
+                LanguageSupport.Instance.language,
+                (QuestionPack)System.Enum.Parse(typeof(QuestionPack), GameInfo.Instance.settings.questionPack));
             c.RemoveAt(i);
         }
 

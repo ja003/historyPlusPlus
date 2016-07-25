@@ -26,9 +26,9 @@ public class DBAccess : MonoBehaviour {
 
     #region Question
 
-    public Question GetRandomQuestion(Category category, Language language)
+    public Question GetRandomQuestion(Category category, Language language, QuestionPack questionPack)
     {
-        return ds.GetRandomQuestion(category, language);
+        return ds.GetRandomQuestion(category, language, questionPack);
     }
 
     public List<Question> GetCompletedQuestions()
@@ -60,10 +60,15 @@ public class DBAccess : MonoBehaviour {
     public bool IsAnyQuestionAvailable()
     {
         Array ca = Enum.GetValues(typeof(Category));
-        foreach(Category c in ca)
+        Array qpa = Enum.GetValues(typeof(QuestionPack));
+
+        foreach (Category c in ca)
         {
-            if (GetRandomQuestion(c, Language.CZ).IsValid())
-                return true;
+            foreach (QuestionPack qp in qpa)
+            {
+                if (GetRandomQuestion(c, Language.CZ, qp).IsValid())
+                    return true;
+            }                
         }
         return false;
     }

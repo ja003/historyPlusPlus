@@ -10,6 +10,7 @@ public class Question {
     public Category category;
     public Period currentPeriod;
     public Period startPeriod;
+    public QuestionPack questionPack;
 
     public int century = 666;
     public int decade = 666;

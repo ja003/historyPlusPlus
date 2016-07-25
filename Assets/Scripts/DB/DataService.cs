@@ -63,13 +63,17 @@ public class DataService  {
     #region Question
 
     //TODO: very uneffective implementation
-    public Question GetRandomQuestion(Category category, Language language)
+    public Question GetRandomQuestion(Category category, Language language, QuestionPack questionPack)
     {
         string c = category.ToString();
+        string qp = questionPack.ToString();
+        string qp_general = "general";
         //Debug.Log(c);
         List<QuestionTable> questions = 
             _connection.Table<QuestionTable>().Where(
-                x => x.category == c && x.completed == false).ToList();
+                x => x.category == c && 
+                (x.questionPack == qp || x.questionPack == qp_general) &&
+                x.completed == false).ToList();
         //Debug.Log(questions.Count);
 
         if (questions.Count > 0)
