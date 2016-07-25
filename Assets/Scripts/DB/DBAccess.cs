@@ -31,6 +31,22 @@ public class DBAccess : MonoBehaviour {
         return ds.GetRandomQuestion(category, language);
     }
 
+    public List<Question> GetCompletedQuestions()
+    {
+        List<QuestionTable> questionsTable = ds.GetCompletedQuestions();
+        List<Question> questions = new List<Question>();
+        foreach(QuestionTable q in questionsTable)
+        {
+            questions.Add(q.GetQuestion(LanguageSupport.Instance.language));
+        }
+        return questions;
+    }
+
+    public void ResetQuestions()
+    {
+        ds.ResetQuestions();
+    }
+
     public void CompleteQuestion(Question question, bool solved)
     {
         ds.CompleteQuetion(question, solved);

@@ -1,0 +1,4 @@
+Score
+
+- added new Core scene
+- implemented reseting of all questions and score

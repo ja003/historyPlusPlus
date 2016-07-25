@@ -79,12 +79,13 @@ public class Question {
         }
     }
 
-    private string GetCorrectAnswer()
+    public string GetCorrectAnswer()
     {
         Period tmpPeriod = currentPeriod;
         currentPeriod = Period.none;
         string output = GetSolvedString();
         currentPeriod = tmpPeriod;
+        Debug.Log(output);
         return output;
     }
 

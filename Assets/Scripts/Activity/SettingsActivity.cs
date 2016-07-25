@@ -232,13 +232,6 @@ public class SettingsActivity : MonoBehaviour {
     }
 
     #endregion
-    /*
     
-
-    
-
-
-
-    */
 
 }

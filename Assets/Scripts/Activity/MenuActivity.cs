@@ -7,9 +7,11 @@ public class MenuActivity : MonoBehaviour {
     
     Button startGame_button;
     Button settings_button;
+    Button score_button;
 
     Text startGame_text;
     Text settings_text;
+    Text score_text;
 
 
 
@@ -58,6 +60,10 @@ public class MenuActivity : MonoBehaviour {
         settings_button = GameObject.Find("settings_button").
             GetComponent<Button>();
         settings_button.onClick.AddListener(Settings);
+
+        score_button = GameObject.Find("score_button").
+            GetComponent<Button>();
+        score_button.onClick.AddListener(Score);
     }
 
     private void InitializeMenuVariables()
@@ -65,6 +71,8 @@ public class MenuActivity : MonoBehaviour {
         startGame_text = GameObject.Find("startGame_text").
             GetComponent<Text>();
         settings_text = GameObject.Find("settings_text").
+            GetComponent<Text>();
+        score_text = GameObject.Find("score_text").
             GetComponent<Text>();
 
     }
@@ -81,6 +89,11 @@ public class MenuActivity : MonoBehaviour {
     {
         SceneManager.LoadScene("settings");
     }
+
+    public void Score()
+    {
+        SceneManager.LoadScene("score");
+    }
     #endregion
 
     #region Visualization
@@ -88,6 +101,7 @@ public class MenuActivity : MonoBehaviour {
     {
         startGame_text.text = LanguageSupport.Instance.GetText("menu_start");
         settings_text.text = LanguageSupport.Instance.GetText("menu_settings");
+        score_text.text = LanguageSupport.Instance.GetText("menu_score");
     }
     #endregion
 }

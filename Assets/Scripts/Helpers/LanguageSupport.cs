@@ -32,6 +32,7 @@ public class LanguageSupport : MonoBehaviour
     {
         AddText("menu_start");
         AddText("menu_settings");
+        AddText("menu_score");
     }
 
     public void InitializeGameTexts()
@@ -85,6 +86,11 @@ public class LanguageSupport : MonoBehaviour
         AddText("category_war");
     }
 
+    public void InitializeScoreTexts()
+    {
+        AddText("score_noquestions");
+    }
+
     #endregion
 
     #region Functions
@@ -96,7 +102,14 @@ public class LanguageSupport : MonoBehaviour
     private void AddText(string key)
     {
         if (!texts.Contains(key))
+        {
             texts.Add(key, LoadText(key));
+            //Debug.Log(key);
+        }
+        else
+        {
+            //Debug.Log(key);
+        }
     }
 
     public void SetLanguage(SettingsTable settings)
@@ -107,6 +120,7 @@ public class LanguageSupport : MonoBehaviour
     string LoadText(string code)
     {
         string s = DBAccess.Instance.GetText(code, language);
+        //Debug.Log(s);
         return s;
     }
 

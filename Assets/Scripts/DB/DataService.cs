@@ -62,6 +62,7 @@ public class DataService  {
 
     #region Question
 
+    //TODO: very uneffective implementation
     public Question GetRandomQuestion(Category category, Language language)
     {
         string c = category.ToString();
@@ -81,6 +82,29 @@ public class DataService  {
         {
             //Debug.Log("no more questions for category: " + category);
             return new Question();
+        }
+    }
+
+    public List<QuestionTable> GetCompletedQuestions()
+    {
+        return _connection.Table<QuestionTable>().Where(
+                x => x.completed).ToList();
+    }
+
+    public List<QuestionTable> GetAllQuestions()
+    {
+        return _connection.Table<QuestionTable>().ToList();
+    }
+
+    public void ResetQuestions()
+    {
+        List<QuestionTable> completedQuestions = GetAllQuestions();
+        foreach(QuestionTable q in completedQuestions)
+        {
+            q.currentPeriod = q.startPeriod;
+            q.completed = false;
+            q.solved = false;
+            _connection.Update(q);
         }
     }
 

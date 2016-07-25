@@ -34,6 +34,7 @@ public class QuestionTable :ICloneable{
         Question q = new Question();
         q.id = id;
         q.completed = completed;
+        q.solved = solved;
         q.category = (Category)Enum.Parse(typeof(Category), category);
         q.currentPeriod = (Period)Enum.Parse(typeof(Period), currentPeriod);
         q.startPeriod = (Period)Enum.Parse(typeof(Period), startPeriod);

@@ -114,9 +114,9 @@ public class AnswerActivity : MonoBehaviour {
 
     private void RevealQuestion(Question question)
     {
-        question.currentPeriod = Period.none;
-        answer_text.text = question.GetSolvedString();
-        question.currentPeriod = Period.none;
+        //question.currentPeriod = Period.none;
+        answer_text.text = question.GetCorrectAnswer();
+        //question.currentPeriod = Period.none;
         top_btn_obj.SetActive(false);
 
         DBAccess.Instance.CompleteQuestion(question, false);
