@@ -76,6 +76,7 @@ public class GameActivity : MonoBehaviour {
     {
         answerActivity = GameObject.Find("AnswerActivity").
             GetComponent<AnswerActivity>();
+        QuestionGenerator.Instance.answerActivity = answerActivity;
 
         questionText = GameObject.Find("question_text").
             GetComponent<Text>();
@@ -177,7 +178,10 @@ public class GameActivity : MonoBehaviour {
             RefreshQuestion();
         else
             answerActivity.NoMoreQuestions();
-        
+
+        answerActivity.currentAnswer = currentQuestion.GetCurrentAnswer();
+            //new System.DateTime();
+
     }
       
     public void SelectOption(int optionNumber)

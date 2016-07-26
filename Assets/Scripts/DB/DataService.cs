@@ -80,6 +80,8 @@ public class DataService  {
         {
             QuestionTable q = questions[Random.Range(0, questions.Count)];
             Debug.Log("random question: " + q.code);
+            Debug.Log(q.completed);
+
             return q.GetQuestion(language);
         }
         else

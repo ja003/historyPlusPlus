@@ -5,6 +5,8 @@ using System.Collections.Generic;
 public class QuestionGenerator : MonoBehaviour {
 
     public static QuestionGenerator Instance { get; private set; }
+    public AnswerActivity answerActivity;
+
 
     void Awake()
     {
@@ -128,34 +130,84 @@ public class QuestionGenerator : MonoBehaviour {
     }
 
     /// <summary>
+    /// checks if answer is between currentPeriod and endPeriod values [inclusive]
+    /// </summary>
+    private bool CheckTimespan(Question question, System.DateTime answer)
+    {
+        System.DateTime from = question.GetFrom();
+        System.DateTime to = question.GetTo();
+
+        switch (question.currentPeriod)
+        {
+            case Period.century:
+                from = new System.DateTime(100*(from.Year / 100), from.Month, from.Day);
+                to = new System.DateTime(100*(to.Year / 100), to.Month, to.Day);
+                break;
+            case Period.decade:
+                from = new System.DateTime(10 * (from.Year / 10), from.Month, from.Day);
+                to = new System.DateTime(10 * (to.Year / 10), to.Month, to.Day);
+                break;
+                /*case Period.year:
+                    from = question.year;
+                    to = question.endYear;
+                    break;
+                case Period.month:
+                    from = question.month;
+                    to = question.endMonth;
+                    break;
+                case Period.day:
+                    from = question.day;
+                    to = question.endDay;
+                    break;*/
+        }
+        Debug.Log(from);
+        Debug.Log(to);
+
+
+        return (answer >= from && answer <= to) || (answer <= from && answer >= to);
+    }
+
+    /// <summary>
     /// check if answer to question is correct
     /// - updates DB: completed, solved and current period
     /// </summary>
     public bool CheckAnswer(Question question, int answer)
     {
-        bool correct = true;
+        answer = Mathf.Abs(answer);
+
+        Debug.Log(answerActivity.currentAnswer);
+        int currentYear = 0;
+        if (answerActivity.currentAnswer.Year != 1)
+            currentYear = answerActivity.currentAnswer.Year;
+
         switch (question.currentPeriod)
         {
             case Period.century:
-                correct = question.century == answer;
+                answerActivity.currentAnswer = new System.DateTime(100 * answer, 1, 1);        
                 break;
             case Period.decade:
-                correct = question.decade == answer;
+                answerActivity.currentAnswer = new System.DateTime(
+                    currentYear + 10*answer, 1, 1);
                 break;
             case Period.year:
-                correct = question.year == answer;
+                answerActivity.currentAnswer = new System.DateTime(
+                    currentYear + answer, 1, 1);
                 break;
             case Period.month:
-                correct = question.month == answer;
+                answerActivity.currentAnswer = new System.DateTime(
+                    currentYear, answer, 1);
                 break;
             case Period.day:
-                correct = question.day == answer;
+                answerActivity.currentAnswer = new System.DateTime(
+                    currentYear, answerActivity.currentAnswer.Month, answer);
                 break;
         }
 
+        bool correct = CheckTimespan(question, answerActivity.currentAnswer);
+
         if (correct)
         {
-            Debug.Log(answer + " is correct");
+            Debug.Log(answer + " is correct: " + answerActivity.currentAnswer);
             question.CorrectAnswer();
 
             if (question.completed)
@@ -166,6 +218,7 @@ public class QuestionGenerator : MonoBehaviour {
         else
         {
             Debug.Log(answer + " is NOT correct (" + question + " )");
+            Debug.Log(answerActivity.currentAnswer);
         }
 
 

@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
 public class AnswerActivity : MonoBehaviour {
 
@@ -22,6 +23,8 @@ public class AnswerActivity : MonoBehaviour {
     GameActivity gameActivity;
 
     bool status;
+
+    public DateTime currentAnswer;
 
 
     // Use this for initialization
@@ -156,9 +159,19 @@ public class AnswerActivity : MonoBehaviour {
         ShowAnsverCanvas();
 
 
-        answer_text.text = status ?
-            LanguageSupport.Instance.GetText("answer_correct") :
-            LanguageSupport.Instance.GetText("answer_wrong");
+        if (status)
+        {
+            if (gameActivity.currentQuestion.completed)
+            {
+                answer_text.text = gameActivity.currentQuestion.GetCorrectAnswer();
+            }
+            else
+                answer_text.text = LanguageSupport.Instance.GetText("answer_correct");
+        }
+        else
+        {
+            answer_text.text = LanguageSupport.Instance.GetText("answer_wrong");
+        }
 
         ShowOptions(status);
 

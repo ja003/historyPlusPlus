@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class Question {
     public string code;
@@ -24,6 +25,72 @@ public class Question {
     public int endYear = 666;
     public int endMonth = 666;
     public int endDay = 666;
+
+    public DateTime GetFrom()
+    {
+        int c = Mathf.Abs(century);
+        if (c == 666)
+            c = 0;
+
+        int d = decade;
+        if (d == 666)
+            d = 0;
+        int y = year;
+        if (y == 666)
+            y = 0;
+
+        int m = month;
+        if (m == 666)
+            m = 1;
+        int da = day;
+        if (da == 666)
+            da = 1;
+        
+        return new DateTime(100 * c + 10 * d + y, m, da);
+    }
+
+    public DateTime GetTo()
+    {
+        int c = Mathf.Abs(endCentury);
+        if (c == 666)
+            c = 0;
+        int d = endDecade;
+        if (d == 666)
+            d = 0;
+        int y = endYear;
+        if (y == 666)
+            y = 0;
+
+        int m = endMonth;
+        if (m == 666)
+            m = 1;
+        int da = endDay;
+        if (da == 666)
+            da = 1;
+
+        return new DateTime(100 * c + 10 * d + y, m, da);
+    }
+
+    
+
+    public DateTime GetCurrentAnswer()
+    {
+        switch (currentPeriod)
+        {
+            case Period.century:
+                return new DateTime();
+            case Period.decade:
+                return new DateTime(100* Mathf.Abs(century), 1,1);
+            case Period.year:
+                return new DateTime(100 * Mathf.Abs(century) + 10*decade, 1, 1);
+            case Period.month:
+                return new DateTime(100 * Mathf.Abs(century) + 10 * decade + year, 1, 1);
+            case Period.day:
+                return new DateTime(100 * Mathf.Abs(century) + 10 * decade, month, 1);
+            default:
+                return new DateTime();
+        }
+    }
 
     public string GetSolvedString()
     {
@@ -129,30 +196,35 @@ public class Question {
     /// </summary>
     public void CorrectAnswer()
     {
+        Debug.Log(currentPeriod);
+        Debug.Log(endPeriod);
+        if (currentPeriod == endPeriod)
+            CompleteQuestion(true);
+
         switch (currentPeriod)
         {
             case Period.century:
-                if (endPeriod != Period.decade)
+                if (endPeriod != Period.century )
                     currentPeriod = Period.decade;
                 else
                     CompleteQuestion(true);
                 break;
 
             case Period.decade:
-                if (endPeriod != Period.year)
+                if (endPeriod != Period.decade)
                     currentPeriod = Period.year;
                 else
                     CompleteQuestion(true);
                 break;
 
             case Period.year:
-                if (endPeriod != Period.month)
+                if (endPeriod != Period.year)
                     currentPeriod = Period.month;
                 else
                     CompleteQuestion(true);
                 break;
             case Period.month:
-                if (endPeriod != Period.day)
+                if (endPeriod != Period.month)
                     currentPeriod = Period.day;
                 else
                     CompleteQuestion(true);
@@ -163,6 +235,11 @@ public class Question {
         }
     }
 
+    /// <summary>
+    /// completed = true;
+    /// currentPeriod = Period.none;
+    /// this.solved = solved;
+    /// </summary>
     private void CompleteQuestion(bool solved)
     {
         completed = true;
