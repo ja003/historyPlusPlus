@@ -137,7 +137,7 @@ public class QuestionGenerator : MonoBehaviour {
         switch (question.currentPeriod)
         {
             case Period.century:
-                correct =  question.century == answer;
+                correct = question.century == answer;
                 break;
             case Period.decade:
                 correct = question.decade == answer;

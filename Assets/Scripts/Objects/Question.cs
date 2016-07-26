@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Question {
-    public int id;
+    public string code;
     public string alias = "";
     public string text = "";
     public bool completed = false;
@@ -10,6 +10,7 @@ public class Question {
     public Category category;
     public Period currentPeriod;
     public Period startPeriod;
+    public Period endPeriod;
     public QuestionPack questionPack;
 
     public int century = 666;
@@ -17,35 +18,66 @@ public class Question {
     public int year = 666;
     public int month = 666;
     public int day = 666;
-    
+
+    public int endCentury = 666;
+    public int endDecade = 666;
+    public int endYear = 666;
+    public int endMonth = 666;
+    public int endDay = 666;
+
     public string GetSolvedString()
     {
-        string centuryString = century != 666 ? century + "" : "";
+        string centuryString = (century != 666 && century != 0) ? century + "" : "";
         string decadeString = decade != 666 ? decade + "" : "";
         string yearString = year != 666 ? year + "" : "";
         string monthString = month != 666 ? month + "" : "";
         string dayString = day != 666 ? day + "" : "";
 
+        string endCenturyString = (endCentury != 666 && endCentury != 0) ? endCentury + "" : "";
+        string endDecadeString = endDecade != 666 ? endDecade + "" : "";
+        string endYearString = endYear != 666 ? endYear + "" : "";
+        string endMonthString = endMonth != 666 ? endMonth + "" : "";
+        string endDayString = endDay != 666 ? endDay + "" : "";
+
+        string output = "";
+
         switch (currentPeriod)
         {
             case Period.century:
-                return "";                
-
+                output +=  "";
+                break;
             case Period.decade:
-                return centuryString + "_ _";
+                output +=  centuryString + "_ _";
+                break;
             case Period.year:
-                return centuryString + decadeString + "_";
+                output +=  centuryString + decadeString + "_";
+                break;
             case Period.month:
-                return centuryString + decadeString + yearString;
-
+                output +=  centuryString + decadeString + yearString;
+                break;
             case Period.day:
-                return centuryString + decadeString + yearString + " " +
+                output +=  centuryString + decadeString + yearString + " " +
                     monthString + " _ _";
+                break;
             case Period.none:
-                return centuryString + decadeString + yearString + " " +
-                    monthString + " " + dayString;
+                output += centuryString + decadeString + yearString;
+                if (monthString.Length > 0)
+                    output += " " + monthString;
+                if (dayString.Length > 0)
+                    output += " " + dayString;
+                break;
         }
-        return "";
+        if (endCenturyString.Length > 0 || endDecadeString.Length > 0 || endYearString.Length > 0 ||
+            endMonthString.Length > 0 || endDayString.Length > 0)
+            output += " - ";
+
+        output += endCenturyString + endDecadeString + endYearString;
+        if (endMonthString.Length > 0)
+            output += " " + endMonthString;
+        if (endDayString.Length > 0)
+            output += " " + endDayString;
+
+        return output;
     }
 
     public string GetPeriodAppendix()
@@ -93,34 +125,34 @@ public class Question {
     /// <summary>
     /// correct answer process
     /// - moves current period
-    /// - if next period is not defined, question is completed
+    /// - if next period is endPeriod, question is completed
     /// </summary>
     public void CorrectAnswer()
     {
         switch (currentPeriod)
         {
             case Period.century:
-                if (decade != 666)
+                if (endPeriod != Period.decade)
                     currentPeriod = Period.decade;
                 else
                     CompleteQuestion(true);
                 break;
 
             case Period.decade:
-                if (year != 666)
+                if (endPeriod != Period.year)
                     currentPeriod = Period.year;
                 else
                     CompleteQuestion(true);
                 break;
 
             case Period.year:
-                if (month != 666)
+                if (endPeriod != Period.month)
                     currentPeriod = Period.month;
                 else
                     CompleteQuestion(true);
                 break;
             case Period.month:
-                if (day != 666)
+                if (endPeriod != Period.day)
                     currentPeriod = Period.day;
                 else
                     CompleteQuestion(true);

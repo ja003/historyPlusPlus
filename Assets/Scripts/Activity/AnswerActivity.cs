@@ -26,10 +26,7 @@ public class AnswerActivity : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        //Debug.Log("AnswerActivity");
-        /*if (SceneManager.GetActiveScene().buildIndex == 1)  
-            OnLevelWasLoaded(1);
-        */
+
         answerCanvas = GameObject.Find("AnswerCanvas").
             GetComponent<Canvas>();
 
@@ -47,18 +44,7 @@ public class AnswerActivity : MonoBehaviour {
     }
 
 
-
-    /*void OnLevelWasLoaded(int level)
-    {
-        Debug.Log("LOAD");
-        if (level == 1)
-        {
-            Debug.Log("GAME");
-
-            
-        }
-
-    }*/
+    
 
     #region Initialization
     private void InitializeOptions()

@@ -79,7 +79,7 @@ public class DataService  {
         if (questions.Count > 0)
         {
             QuestionTable q = questions[Random.Range(0, questions.Count)];
-            Debug.Log("random question: " + q.id);
+            Debug.Log("random question: " + q.code);
             return q.GetQuestion(language);
         }
         else
@@ -119,7 +119,7 @@ public class DataService  {
         q.solved = solved;
         q.currentPeriod = question.currentPeriod.ToString();
         _connection.Update(q);
-        Debug.Log(q.id + " completed (solved: " + solved + ")");
+        Debug.Log(q.code + " completed (solved: " + solved + ")");
     }
 
     public void UpdateQuestionPeriod(Question question)
@@ -127,12 +127,12 @@ public class DataService  {
         QuestionTable q = GetQuestionTable(question);
         q.currentPeriod = question.currentPeriod.ToString();
         _connection.Update(q);
-        Debug.Log(q.id + " period updated to: " + q.currentPeriod);
+        Debug.Log(q.code + " period updated to: " + q.currentPeriod);
     }
 
     public QuestionTable GetQuestionTable(Question question)
     {
-        return _connection.Get<QuestionTable>(question.id);
+        return _connection.Get<QuestionTable>(question.code);
     }
     #endregion
 

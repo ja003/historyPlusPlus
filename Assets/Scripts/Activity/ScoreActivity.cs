@@ -29,6 +29,7 @@ public class ScoreActivity : MonoBehaviour {
         InitializeScoreVariables();
 
         StartCoroutine(LateStart(0.0f));
+        
 
     }
 

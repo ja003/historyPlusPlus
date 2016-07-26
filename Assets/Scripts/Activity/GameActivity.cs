@@ -190,22 +190,22 @@ public class GameActivity : MonoBehaviour {
                     case 1:
                         answerActivity.ShowAnswerStatus(
                             QuestionGenerator.Instance.CheckAnswer(
-                                currentQuestion,options.currentFirstValue));
+                                currentQuestion, options.currentFirstValue));
                         break;
                     case 3:
                         answerActivity.ShowAnswerStatus(
                             QuestionGenerator.Instance.CheckAnswer(
-                                currentQuestion, options.currentFirstValue+1));
+                                currentQuestion, options.currentFirstValue + 1));
                         break;
                     case 7:
                         answerActivity.ShowAnswerStatus(
                             QuestionGenerator.Instance.CheckAnswer(
-                                currentQuestion, options.currentFirstValue+2));
+                                currentQuestion, options.currentFirstValue + 2));
                         break;
                     case 9:
                         answerActivity.ShowAnswerStatus(
                             QuestionGenerator.Instance.CheckAnswer(
-                                currentQuestion, options.currentFirstValue+3));
+                                currentQuestion, options.currentFirstValue + 3));
                         break;
                 }
                 break;

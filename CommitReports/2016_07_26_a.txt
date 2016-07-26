@@ -1,0 +1,5 @@
+End period
+
+- implemented ending period to each question
+- improved display of result (timespan)
+- cretaed question DB
